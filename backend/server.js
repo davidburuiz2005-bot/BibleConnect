@@ -7,8 +7,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const PORT = 3000;
-
 // Ruta principal
 app.get("/", (req, res) => {
   res.json({
@@ -44,7 +42,6 @@ app.get("/api/bible/verse", async (req, res) => {
     }
 
     res.json(data);
-
   } catch (error) {
     console.error("Error consultando ApiBiblia:", error);
 
@@ -54,6 +51,14 @@ app.get("/api/bible/verse", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Backend ejecutándose en http://localhost:${PORT}`);
-});
+// Exportar para Vercel
+module.exports = app;
+
+// Para ejecutarlo localmente
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+
+  app.listen(PORT, () => {
+    console.log(`🚀 Backend ejecutándose en http://localhost:${PORT}`);
+  });
+}
